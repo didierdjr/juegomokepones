@@ -39,6 +39,8 @@ let botonAgua
 let botonTierra
 let botonesAtaque = []
 let botones
+let indexAtaqueJugador
+let indexAtaqueEnemigo
 
 
 // clases y como crearlas
@@ -217,13 +219,21 @@ function ataqueAleatorioEnemigo(){
         ataqueEnemigo.push('TIERRA')
     }
     console.log(ataqueEnemigo)
-    batalla()
+    iniciarPelea()
 }
+
+function iniciarPelea(){
+    if (ataqueJugador.lenght === 5) {
+        batalla()
+    }
+}
+
+
 
 function crearMensaje(resultado) {
     secctionMensaje.innerHTML = resultado
-    nuevoAtaqueDelJugador.innerHTML = ataqueJugador
-    nuevoAtaqueDelEnemigo.innerHTML = ataqueEnemigo
+    nuevoAtaqueDelJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueDelEnemigo.innerHTML = indexAtaqueEnemigo
   
     ataquesDelJugador.appendChild(nuevoAtaqueDelJugador);
     ataquesDelEnemigo.appendChild(nuevoAtaqueDelEnemigo);
@@ -243,9 +253,19 @@ function crearMensajeFinal(resultadoFinal) {
     sectionReiniciar.style.display = 'block'
 }
 
+function indexAmbosOponentes (jugador, enemigo){
+    indexAtaqueJugador= ataqueEnemigo[jugador]
+    indexAtaqueEnemigo= ataqueEnemigo[enemigo]
+}
 
 function batalla (){
 
+    for (let index = 0; index < ataqueJugador.length; index++) {
+       if(ataqueJugador[index] === ataqueEnemigo[index]){
+        indexAmbosOponentes (index, index)
+        crearMensaje("Empate")
+       }
+    }
 
     if(ataqueJugador == 'TIERRA' && ataqueEnemigo =='AGUA'){
         crearMensaje('Ganaste 🏆🏆🏆') 
