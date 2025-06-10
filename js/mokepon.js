@@ -42,6 +42,8 @@ let botones
 let indexAtaqueJugador
 let indexAtaqueEnemigo
 let ataqueJugador = []
+let victoriasJugador = 0
+let victoriasEnemigo = 0
 
 // clases y como crearlas
 class Mokepon {
@@ -95,26 +97,22 @@ function iniciarJuego(){
 
     sectionSeleccionarAtaque.style.display = 'none'
 
-    mokepones.forEach((mokepon)  => { 
+        mokepones.forEach((mokepon)  =>         { 
 
-        opcionDeMokepones = `<input type='radio' name='mascota' id= ${mokepon.nombre} />
-        <label class="tarjeta-de-mokepon" for= ${mokepon.nombre}>
-            <p>${mokepon.nombre}</p>
-            <img src=${mokepon.foto} alt=${mokepon.nombre}>
-        </label>`
+            opcionDeMokepones = `<input type='radio' name='mascota' id= ${mokepon.nombre} />
+            <label class="tarjeta-de-mokepon" for= ${mokepon.nombre}>
+                <p>${mokepon.nombre}</p>
+                <img src=${mokepon.foto} alt=${mokepon.nombre}>
+            </label>`
+            
+            contenedorTarjetas.innerHTML += opcionDeMokepones
+            //templates literarios para implementar HTML con valores de nuestras variables, templates literarios
+
+            inputHipodoge = document.getElementById('Hipodoge')
+            inputCapipepo = document.getElementById('Capipepo')
+            inputRatigueya = document.getElementById('Ratigueya')
         
-        contenedorTarjetas.innerHTML += opcionDeMokepones
-        //templates literarios para implementar HTML con valores de nuestras variables, templates literarios
-
-        inputHipodoge = document.getElementById('Hipodoge')
-        inputCapipepo = document.getElementById('Capipepo')
-        inputRatigueya = document.getElementById('Ratigueya')
-
-    }) // este metodo ayuda a iterar o mevernos dentro de los objetos y sus atributos que tiene este arreglo//por cada mokepon que existe has lo siguiente:
-
-    sectionReiniciar.style.display = 'none'
-
-    
+            }) // este metodo ayuda a iterar o mevernos dentro de los objetos y sus atributos que tiene este arreglo//por cada mokepon que existe has lo siguiente:
 
     botonReiniciar.addEventListener('click', reiniciarJuego)
 }
@@ -207,23 +205,22 @@ function seleccionarMascotaEnemigo(){
 
 
 function ataqueAleatorioEnemigo(){
-    let ataqueAleatorio= aleatorio(0,ataquesMokeponEnemigo.lenght-1)
+    let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length-1)
     
-    if(ataqueAleatorio == 0 ||ataqueAleatorio == 1){
+    if(ataqueAleatorio === 0 || ataqueAleatorio === 1 || ataqueAleatorio === 2){
         ataqueEnemigo.push('FUEGO')
-    }  else if (ataqueAleatorio==3 || ataqueAleatorio == 4){
+    } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4){
         ataqueEnemigo.push('AGUA')
-    }  else{
+    } else {
         ataqueEnemigo.push('TIERRA')
     }
-    console.log(ataqueEnemigo)
     iniciarPelea()
 }
 
 function iniciarPelea(){
-    if (ataqueJugador === 5){
-        combate()
-    } 
+    if (ataqueJugador.length === 5){
+       combate()
+    }       
 }
 
 
@@ -256,57 +253,52 @@ function indexAmbosOponentes (jugador, enemigo){
     indexAtaqueEnemigo = ataqueEnemigo[enemigo]
 }
 
+
 function combate(){   
-    
     for (let index = 0; index < ataqueJugador.length; index++) {
         if(ataqueJugador[index] === ataqueEnemigo[index]){
-            indexAmbosOponentes (index, index)
+            indexAmbosOponentes(index, index)
             crearMensaje('Empate  😢😢😢') 
         }
         else if(ataqueJugador[index] === 'FUEGO' && ataqueEnemigo[index] === 'TIERRA' ){
-            indexAmbosOponentes (index, index)
+            indexAmbosOponentes(index, index)
             crearMensaje('Ganaste 🏆🏆🏆')
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
-         }
-        else if(ataqueJugador[index] ==='TIERRA' && ataqueEnemigo[index] === 'AGUA' ){ 
-            indexAmbosOponentes (index, index)
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
+        }
+        else if(ataqueJugador[index] ==='AGUA' && ataqueEnemigo[index] === 'FUEGO' ){ 
+            indexAmbosOponentes(index, index)
             crearMensaje('Ganaste 🏆🏆🏆') 
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         }
-        else if(ataqueJugador[index] === 'TIERRA' && ataqueEnemigo[index] === 'FUEGO' ){
-            indexAmbosOponentes (index, index)
-            crearMensaje('Ganaste 🏆🏆')
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+        else if(ataqueJugador[index] === 'TIERRA' && ataqueEnemigo[index] === 'AGUA' ){
+            indexAmbosOponentes(index, index)
+            crearMensaje('Ganaste 🏆🏆🏆')
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         }
-        else if(ataqueJugador[index] === 'AGUA' && ataqueEnemigo[index] === 'FUEGO' ){
-            indexAmbosOponentes (index, index)
-            crearMensaje('Ganaste 🏆🏆')
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+        else {
+            crearMensaje('perdiste😖😖😖')
+            victoriasEnemigo++
+            spanVidasEnemigo.innerHTML = victoriasEnemigo
         }
-        else {crearMensaje('perdiste😖😖😖')
-            vidasJugador--
-            spanVidasJugador.innerHTML = vidasJugador
-        }
-        revisarVidas()
+        revisarVictorias()
     }
 }    
     
-
-   
-    
-
-    function revisarVidas(){
-        if(vidasEnemigo == 0){
-            crearMensajeFinal('Ganaste fin del juego')
+    function revisarVictorias(){
+        if(victoriasJugador === victoriasEnemigo){
+            crearMensajeFinal('Esto es un empate')
         }
-        else if(vidasJugador== 0){
-            crearMensajeFinal ('ya no tienes vidas Perdiste lo siento')
+        else if(victoriasJugador > victoriasEnemigo){
+            crearMensajeFinal ('Felicidades Ganaste el juego')
+        }
+        else{
+            crearMensajeFinal ('Lo siento perdiste el juego')
         }
      }
+
 function reiniciarJuego (){
         location.reload()
     }
