@@ -8,11 +8,9 @@ const spanMascotaJugador = document.getElementById('mascota-jugador')
 
 const spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
-const secctionMensaje = document.getElementById('resultado')
+const sectionMensaje = document.getElementById('resultado')
 const ataquesDelJugador = document.getElementById('ataques-del-jugador')
 const ataquesDelEnemigo = document.getElementById('ataques-del-enemigo')
-const nuevoAtaqueDelJugador = document.createElement('p')
-const nuevoAtaqueDelEnemigo = document.createElement('p')
 const botonReiniciar = document.getElementById('boton-reiniciar')
 
 const spanVidasJugador = document.getElementById('vidas-jugador')
@@ -89,7 +87,7 @@ ratigueya.ataques.push(
     {nombre: '💧', id: 'boton-agua'},
     {nombre: '☘️', id: 'boton-tierra'},
 ) //obejtos literarios son objetos sin clases
-
+len
 
 function iniciarJuego(){
     
@@ -176,15 +174,18 @@ function secuenciaAtaque(){
             if (e.target.textContent === '🔥') {
                 ataqueJugador.push('FUEGO')
                 console.log(ataqueJugador)
-                boton.style.backgroundColor = "#112f58"
+                boton.style.background = "#112f58"
+                boton.disabled = true
                 }   else if (e.target.textContent === '💧'){
                 ataqueJugador.push('AGUA')
                 console.log(ataqueJugador)
-                boton.style.backgroundColor = "#112f58"
+                boton.style.background = "#112f58"
+                boton.disabled = true
                 }   else {
                 ataqueJugador.push('TIERRA')
                 console.log(ataqueJugador) 
-                boton.style.backgroundColor = "#112f58"
+                boton.style.background = "#112f58"
+                boton.disabled = true
                 }
                 ataqueAleatorioEnemigo()
         })
@@ -223,27 +224,24 @@ function iniciarPelea(){
     }       
 }
 
-
-
 function crearMensaje(resultado) {
-    secctionMensaje.innerHTML = resultado
+
+
+    let nuevoAtaqueDelJugador = document.createElement('p')
+    let nuevoAtaqueDelEnemigo = document.createElement('p')
+
+    sectionMensaje.innerHTML = resultado
     nuevoAtaqueDelJugador.innerHTML = indexAtaqueJugador
     nuevoAtaqueDelEnemigo.innerHTML = indexAtaqueEnemigo
   
     ataquesDelJugador.appendChild(nuevoAtaqueDelJugador);
     ataquesDelEnemigo.appendChild(nuevoAtaqueDelEnemigo);
-
 }
 
 function crearMensajeFinal(resultadoFinal) {
     
-    secctionMensaje.innerHTML = resultadoFinal   
-    
-    botonFuego.disabled = true
-    
-    botonAgua.disabled = true
-    
-    botonTierra.disabled = true
+    sectionMensaje.innerHTML = resultadoFinal   
+
 
     sectionReiniciar.style.display = 'block'
 }
@@ -292,10 +290,10 @@ function combate(){
             crearMensajeFinal('Esto es un empate')
         }
         else if(victoriasJugador > victoriasEnemigo){
-            crearMensajeFinal ('Felicidades Ganaste el juego')
+            crearMensajeFinal('Felicidades Ganaste el juego')
         }
         else{
-            crearMensajeFinal ('Lo siento perdiste el juego')
+            crearMensajeFinal('Lo siento perdiste el juego')
         }
      }
 
